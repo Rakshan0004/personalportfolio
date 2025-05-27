@@ -86,3 +86,55 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       });
   });
 });
+
+// reload the page when hit on logo r.c.
+document.addEventListener('DOMContentLoaded', function() {
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.cursor = 'pointer';  // make cursor a pointer on hover
+    logo.addEventListener('click', function() {
+      window.location.reload(true);  // force reload from server
+    });
+  }
+});
+
+
+
+// Progress Loader Logic
+window.addEventListener('load', () => {
+  let progress = 0;
+  const progressNumber = document.querySelector('.progress-number');
+  const loaderText = document.querySelector('.loader-text');
+  const loaderWrapper = document.querySelector('.loader-wrapper');
+
+  const interval = setInterval(() => {
+    progress += 1; // Increment progress by 1%
+
+    // Update progress number
+    progressNumber.textContent = progress + '%';
+
+    // Gradually show "R.C." as progress increases
+    loaderText.style.opacity = progress / 100;
+
+    // Stop at 100 and fade out loader
+    if (progress >= 100) {
+      clearInterval(interval); // Stop incrementing
+
+      // Fade out loader
+      setTimeout(() => {
+        loaderWrapper.style.opacity = '0'; // Smooth fade out
+        setTimeout(() => {
+          loaderWrapper.style.display = 'none'; // Hide completely
+        }, 500);
+      }, 800);
+    }
+  }, 15); // Adjust speed of increment (20ms per step)
+});
+
+// Add reload functionality to "R.C." logo
+document.querySelector('.loader-text').addEventListener('click', () => {
+  window.location.reload(); // Reload the page when "R.C." is clicked
+});
+
+
+

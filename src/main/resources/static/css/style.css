@@ -22,12 +22,34 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    /* font-family: 'Outfit', sans-serif; */
+    font-family: 'Pacifico', cursive;
+
     background: var(--darker-color);
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
 }
+
+.loader-text {
+  font-size: 48px;
+  color: white;            /* your original color */
+  opacity: 0;              /* start fully transparent */
+  transition: opacity 0.5s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-number {
+  font-size: 28px;
+  color: #00ffcc;
+  font-weight: bold;
+  user-select: none;
+}
+
+
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
