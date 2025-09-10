@@ -1,10 +1,10 @@
-# Multi-stage build for production optimization
-FROM eclipse-temurin:17-jdk-alpine AS builder
+# Use OpenJDK 17 as base image
+FROM openjdk:17-jdk-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first for better layer caching
+# Copy Maven wrapper and pom.xml
 COPY mvnw .
 COPY mvnw.cmd .
 COPY .mvn .mvn
@@ -13,37 +13,14 @@ COPY pom.xml .
 # Make Maven wrapper executable
 RUN chmod +x ./mvnw
 
-# Download dependencies (this layer will be cached if pom.xml doesn't change)
-RUN ./mvnw dependency:go-offline -B
-
 # Copy source code
 COPY src ./src
 
 # Build the application
 RUN ./mvnw clean package -DskipTests
 
-# Production stage
-FROM eclipse-temurin:17-jre-alpine
-
-# Create a non-root user for security
-RUN addgroup -S spring && adduser -S spring -G spring
-
-# Set working directory
-WORKDIR /app
-
-# Copy the built JAR from builder stage
-COPY --from=builder /app/target/personalportfolio-0.0.1-SNAPSHOT.jar app.jar
-
-# Change ownership of the app directory to the spring user
-RUN chown -R spring:spring /app
-USER spring:spring
-
-# Expose the port the app runs on
+# Expose port
 EXPOSE 10000
 
-# Set environment variables for Render
-ENV JAVA_OPTS="-Xmx512m -Xms256m"
-ENV PORT=10000
-
 # Run the application
-CMD ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+CMD ["java", "-jar", "target/personalportfolio-0.0.1-SNAPSHOT.jar"]
