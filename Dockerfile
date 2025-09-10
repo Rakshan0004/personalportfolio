@@ -42,15 +42,15 @@ RUN chown -R spring:spring /app
 USER spring:spring
 
 # Expose the port the app runs on
-EXPOSE 8080
+EXPOSE 10000
 
 # Set environment variables for Render
-ENV JAVA_OPTS="-Xmx512m -Xms256m -Dserver.port=${PORT:-8080} -Dserver.address=0.0.0.0"
-ENV PORT=8080
+ENV JAVA_OPTS="-Xmx512m -Xms256m -Dserver.port=${PORT:-10000} -Dserver.address=0.0.0.0"
+ENV PORT=10000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://0.0.0.0:8080/ || exit 1
+  CMD curl -f http://0.0.0.0:10000/ || exit 1
 
 # Run the application
 CMD ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
