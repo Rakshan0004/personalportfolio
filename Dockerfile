@@ -45,12 +45,12 @@ USER spring:spring
 EXPOSE 8080
 
 # Set environment variables for Render
-ENV JAVA_OPTS="-Xmx512m -Xms256m -Dserver.port=8080"
+ENV JAVA_OPTS="-Xmx512m -Xms256m -Dserver.port=${PORT:-8080} -Dserver.address=0.0.0.0"
 ENV PORT=8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8080/ || exit 1
+  CMD curl -f http://0.0.0.0:8080/ || exit 1
 
 # Run the application
 CMD ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
