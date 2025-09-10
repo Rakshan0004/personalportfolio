@@ -20,6 +20,6 @@ This is my personal portfolio web application built using **Spring Boot** and **
 ## Access the Live Site
 
 Check out the live portfolio here:  
-👉 [https://personalportfolio-production-249f.up.railway.app/](https://personalportfolio-production-249f.up.railway.app/)
+👉 [https://personalportfolio-production-249f.up.railway.app/](https://rakshan-portfolio.onrender.com/)
 
 
