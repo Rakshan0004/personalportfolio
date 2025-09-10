@@ -26,25 +26,7 @@ RUN ./mvnw clean package -DskipTests
 RUN ls -la target/
 
 # Create a proper startup script
-RUN cat > start.sh << 'EOF'
-#!/bin/bash
-set -e
-
-echo "=== Spring Boot Application Startup ==="
-echo "Java version:"
-java -version
-
-echo -e "\nJAR file details:"
-ls -la target/personalportfolio-0.0.1-SNAPSHOT.jar
-
-echo -e "\nEnvironment variables:"
-echo "PORT: ${PORT:-10000}"
-
-echo -e "\nStarting Spring Boot application..."
-echo "Command: java -Dserver.port=${PORT:-10000} -jar target/personalportfolio-0.0.1-SNAPSHOT.jar"
-
-exec java -Dserver.port=${PORT:-10000} -jar target/personalportfolio-0.0.1-SNAPSHOT.jar
-EOF
+RUN printf '#!/bin/bash\nset -e\n\necho "=== Spring Boot Application Startup ==="\necho "Java version:"\njava -version\n\necho -e "\\nJAR file details:"\nls -la target/personalportfolio-0.0.1-SNAPSHOT.jar\n\necho -e "\\nEnvironment variables:"\necho "PORT: ${PORT:-10000}"\n\necho -e "\\nStarting Spring Boot application..."\necho "Command: java -Dserver.port=${PORT:-10000} -jar target/personalportfolio-0.0.1-SNAPSHOT.jar"\n\nexec java -Dserver.port=${PORT:-10000} -jar target/personalportfolio-0.0.1-SNAPSHOT.jar' > start.sh
 
 RUN chmod +x start.sh
 
